@@ -1,0 +1,25 @@
+﻿pmid;studie;jahr;spezies;ort;design;zeit_w;belastet;strang;gruppe_t;gruppe_k;mt;sdt;nt;mk;sdk;nk;ofm_klasse;werkstoff;quelle;anmerkung
+15015945;Weng 2003;2003;Hund;Mandibula;kontrolliert;16;False;Tier;Osseotite (doppelt saeuregeaetzt);maschiniert;62.9;12.4;10;39.5;13.0;10;subtraktiv (Aetzung);cpTi;abstract;
+14731177;Veis 2004;2004;Hund;Os ilium;kontrolliert, Split-Design;20;False;Tier;Osseotite;maschiniert;32.32;15.09;22;17.25;7.4;22;subtraktiv (Aetzung);cpTi;abstract;"Ortsbezogen: basaler Knochen; im Augmentat 46.44+/-15.81 vs. 28.59+/-12.04"
+19291368;Rong 2009;2009;Kaninchen;Tibia;kontrolliert;4;False;Tier;Laser + saeuregeaetzt;gedreht (turned);49.71;9.21;14;27.3;6.55;14;physikalisch-chemisch (Laser+Aetzung);cpTi;abstract;
+21165249;Kim 2009;2009;Beagle;Mandibula;kontrolliert, frueh belastet;14;True;Tier;Mg-anodisiert;gedreht;54.5;8.4;18;45.3;12.2;18;additiv/chemisch (Anodisierung);cpTi;abstract;
+19492637;Ribeiro 2009;2009;Ratte;Tibia;kontrolliert, randomisiert;8.6;False;Tier;Al2O3-gestrahlt;maschiniert;45.92;11.34;14;39.48;10.18;14;subtraktiv (Strahlen);cpTi;abstract;Kochsalz-Kontrollarm (ohne COX-2-Hemmer)
+20464316;Xavier 2010;2010;Hund;Mandibula;kontrolliert;8;False;Tier;mikroraue Oberflaeche;maschiniert;51.2;21.0;16;48.6;18.1;16;subtraktiv;cpTi;abstract;
+20878388;Xiao 2011;2011;Schaf (OVX);Mandibula;kontrolliert;12;False;Tier;HF-geaetzt + anodisiert (Mikro/Nano);maschiniert;58.31;5.79;10;46.85;5.04;10;physikalisch-chemisch (Mikro/Nano);cpTi;abstract;
+22697421;Ballo 2013;2013;Ratte;Tibia;kontrolliert, randomisiert;1;False;Tier;PVD-TiO2 120 nm;maschiniert;39.0;14.0;16;22.0;9.0;16;additiv (PVD-Beschichtung);cpTi;abstract;"7-Tage-Zeitpunkt; nach 28 Tagen kein Unterschied (Werte nicht berichtet)"
+23564723;Stuebinger 2013;2013;Schaf;Becken;kontrolliert;8;False;Tier;additiv gefertigt, poroes (DMLS);maschiniert;43.91;9.69;6;25.33;4.61;6;Makro-/Mikroporositaet;cpTi;abstract;
+26507647;Ou 2016;2016;Minipig;Mandibula;kontrolliert;8;False;Tier;SLAffinity (SLA + elektrochem. Oxidation);maschiniert (M-Ti);84.3;8.1;12;76.5;6.3;12;physikalisch-chemisch;cpTi;abstract;
+26567087;Schmitt 2016;2016;Beagle;Mandibula;kontrolliert, randomisiert;26;False;Tier;gestrahlt + geaetzt (FRIADENT plus);maschiniert;48.3;10.6;20;66.3;30.2;20;subtraktiv;cpTi;abstract;"ROI 2/3 (apikal); Ergebnis zugunsten der maschinierten Kontrolle"
+28008710;Fu 2017;2017;Beagle;Mandibula;kontrolliert, Sofortimplantation;12;False;Tier;Mikro/Nano-texturiert (HF + Anodisierung);maschiniert;63.38;7.63;8;47.13;6.2;8;physikalisch-chemisch (Mikro/Nano);cpTi;abstract;
+28090744;Cheng 2017;2017;Ratte;Femur;kontrolliert;12;False;Tier;HF-Aetzung + Magnetronsputtern;maschiniert;74.78;4.4;8;56.03;3.23;8;physikalisch-chemisch (Mikro/Nano);cpTi;abstract;
+27530186;Queiroz 2017;2017;Kaninchen;Tibia;kontrolliert, randomisiert;13;False;Tier;lasermodifiziert (LS);maschiniert (MS);79.69;3.3;5;51.31;6.96;5;physikalisch (Laser);cpTi;abstract;90-Tage-Zeitpunkt
+31190347;Hou 2019;2019;Ratte;Maxilla;kontrolliert;4;False;Tier;maessig rau;gedreht (turned);72.99;6.6;10;47.62;18.19;10;subtraktiv;cpTi;abstract;gesunder Kontrollarm (ohne Zoledronat), Tag 28
+31010110;Gehrke 2019b;2019;Kaninchen;Tibia;kontrolliert, randomisiert;4;False;Tier;Mikrorillen + Doppelsaeureaetzung (G3);maschiniert (G1);68.65;9.98;12;50.45;9.57;12;physikalisch-chemisch;cpTi;abstract;
+30875729;Gehrke 2019;2019;Kaninchen;Tibia;kontrolliert, randomisiert;6;False;Tier;Ti oberflaechenbehandelt (TiT);Ti maschiniert (TiM);37.8;4.84;10;35.4;4.54;10;subtraktiv;cpTi;volltext;
+34955235;Li 2022;2022;Kaninchen;Femurkondyle;kontrolliert;14;False;Tier;Titanfasernetz-Beschichtung (TFM-22);unbeschichtet;64.9;14.0;9;23.6;17.4;10;additiv (Faserbeschichtung);cpTi;abstract;
+40252976;Niu 2025;2025;Ratte;Femur;kontrolliert;12;False;Tier;HF-Gradientenaetzung (Gruppe d);poliert;40.93;2.71;14;22.41;2.86;14;subtraktiv (Aetzung);cpTi;abstract;
+16850464;Shibli 2007a;2007;Mensch;Kiefer;kontrolliert, intraindividuell;8.7;False;Mensch;anodisiert/oxidiert;maschiniert;39.04;15.75;13;21.71;13.11;13;additiv/chemisch (Anodisierung);cpTi;abstract;
+17846541;Shibli 2007b;2007;Mensch;Maxilla post.;kontrolliert, intraindividuell;8.7;False;Mensch;anodisiert/oxidiert;gedreht (turned);32.19;15.68;7;17.4;14.16;7;additiv/chemisch (Anodisierung);cpTi;abstract;
+17410906;Grassi 2007;2007;Mensch;Maxilla post.;kontrolliert, intraindividuell;8.7;False;Mensch;sandgestrahlt + saeuregeaetzt;maschiniert;40.08;9.89;5;20.66;14.54;5;subtraktiv;cpTi;abstract;
+20426584;dAvila 2010;2010;Mensch (Raucher);Maxilla post.;kontrolliert, intraindividuell;8.7;False;Mensch;sandgestrahlt + saeuregeaetzt;maschiniert;22.19;14.68;7;10.4;14.16;7;subtraktiv;cpTi;abstract;
+36678110;Makary 2023;2023;Mensch;Maxilla post.;RCT, Split-Mouth;6;False;Mensch;SLA;maschiniert (MAC);33.7;3.3;13;29.0;3.1;6;subtraktiv;cpTi;abstract;"6-Wochen-Zeitpunkt; zusaetzlicher Arm XPEED 38.6+/-3.2 (n=16)"

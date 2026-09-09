@@ -1,0 +1,22 @@
+{
+  "T1_klin_ZrvsTi": {
+    "term": "(zirconia[tiab] OR \"zirconium dioxide\"[tiab] OR \"ceramic implant*\"[tiab] OR \"Y-TZP\"[tiab]) AND (titanium[tiab]) AND (\"dental implant*\"[tiab] OR \"oral implant*\"[tiab] OR \"Dental Implants\"[MeSH]) AND (randomi*[tiab] OR \"clinical trial\"[pt] OR \"controlled clinical trial\"[pt] OR cohort[tiab] OR \"split-mouth\"[tiab] OR prospective[tiab] OR retrospective[tiab]) AND (survival[tiab] OR failure[tiab] OR \"bone loss\"[tiab] OR \"bone level*\"[tiab] OR success[tiab]) AND (english[lang] OR german[lang]) NOT (review[pt] OR meta-analysis[pt])",
+    "treffer": 126
+  },
+  "T2_zirkonia_survival": {
+    "term": "(zirconia[ti] OR \"ceramic implant*\"[ti] OR \"Y-TZP\"[ti] OR \"zirconium dioxide\"[ti]) AND (\"dental implant*\"[tiab] OR \"oral implant*\"[tiab]) AND (survival[tiab] OR \"success rate*\"[tiab] OR failure[tiab] OR \"bone loss\"[tiab]) AND (patients[tiab] OR clinical[tiab]) AND (english[lang] OR german[lang]) NOT (review[pt] OR meta-analysis[pt] OR \"in vitro\"[ti])",
+    "treffer": 162
+  },
+  "T3_praeklin_ZrvsTi_BIC": {
+    "term": "(zirconia[tiab] OR \"zirconium dioxide\"[tiab] OR \"ceramic implant*\"[tiab] OR \"Y-TZP\"[tiab] OR alumina[tiab]) AND titanium[tiab] AND (\"bone-to-implant contact\"[tiab] OR \"bone to implant contact\"[tiab] OR \"BIC\"[tiab] OR \"removal torque\"[tiab] OR histomorphometr*[tiab]) AND (dog*[tiab] OR beagle*[tiab] OR rabbit*[tiab] OR pig*[tiab] OR minipig*[tiab] OR sheep[tiab] OR rat[tiab] OR rats[tiab] OR monkey*[tiab] OR \"in vivo\"[tiab]) AND (english[lang] OR german[lang]) NOT (review[pt] OR meta-analysis[pt])",
+    "treffer": 83
+  },
+  "T4_OFM_vs_machined_BIC": {
+    "term": "((\"surface modif*\"[tiab] OR sandblast*[tiab] OR \"acid-etch*\"[tiab] OR SLA[tiab] OR anodi*[tiab] OR \"hydroxyapatite coat*\"[tiab] OR laser[tiab] OR \"plasma spray*\"[tiab] OR nanostructur*[tiab] OR \"surface treat*\"[tiab] OR blasted[tiab] OR etched[tiab] OR coated[tiab]) AND (machined[tiab] OR turned[tiab] OR polished[tiab] OR untreated[tiab] OR \"as-sintered\"[tiab] OR control[tiab])) AND (\"bone-to-implant contact\"[tiab] OR \"bone to implant contact\"[tiab] OR \"BIC\"[tiab] OR \"removal torque\"[tiab]) AND (\"dental implant*\"[tiab] OR \"oral implant*\"[tiab] OR \"Dental Implants\"[MeSH] OR endosseous[tiab] OR mandib*[tiab] OR maxill*[tiab] OR tibia*[tiab] OR femur*[tiab] OR calvari*[tiab]) AND (english[lang] OR german[lang]) NOT (review[pt] OR meta-analysis[pt])",
+    "treffer": 554
+  },
+  "T5_klin_rough_vs_machined": {
+    "term": "((machined[tiab] OR turned[tiab] OR \"minimally rough\"[tiab] OR \"smooth surface\"[tiab]) AND (rough*[tiab] OR sandblast*[tiab] OR \"acid-etch*\"[tiab] OR SLA[tiab] OR SLActive[tiab] OR anodi*[tiab] OR TiUnite[tiab] OR \"hydroxyapatite\"[tiab] OR hydrophilic[tiab] OR \"modified surface\"[tiab])) AND (\"dental implant*\"[tiab] OR \"oral implant*\"[tiab]) AND (randomi*[tiab] OR \"clinical trial\"[pt] OR patients[tiab]) AND (\"marginal bone\"[tiab] OR \"crestal bone\"[tiab] OR survival[tiab] OR failure[tiab] OR \"bone level*\"[tiab] OR ISQ[tiab]) AND (english[lang] OR german[lang]) NOT (review[pt] OR meta-analysis[pt])",
+    "treffer": 60
+  }
+}

@@ -1,0 +1,6 @@
+# Abgerufene Volltexte werden aus urheberrechtlichen Gründen nicht mitversioniert.
+# Sie lassen sich jederzeit reproduzieren mit:
+#   python3 04_extraktion/fetch_fulltext.py 04_extraktion/kandidaten_pmc.txt
+04_extraktion/volltexte/
+__pycache__/
+*.pyc

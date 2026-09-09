@@ -1,0 +1,440 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Extraktionsdatensatz der systematischen Uebersichtsarbeit.
+
+Jede Zeile = ein Vergleich (Test vs. Kontrolle) aus einer eingeschlossenen Studie.
+Alle Werte wurden aus dem Abstract bzw. dem frei zugaenglichen Volltext (PMC) der
+Primaerpublikation entnommen; die Quelle ist je Zeile in `quelle` vermerkt
+('abstract' oder 'volltext').
+
+WICHTIG: Die Extraktion erfolgte KI-gestuetzt durch einen einzelnen Extraktor,
+nicht durch zwei unabhaengige menschliche Reviewer. Vor jeder wissenschaftlichen
+Verwendung ist jeder Datenpunkt gegen die Primaerquelle zu verifizieren.
+
+Felder
+------
+pmid, studie (Autor Jahr), jahr, land/modell, design, spezies, ort,
+zeit_w (Nachbeobachtung in Wochen), belastet,
+gruppe_t / gruppe_k (Beschreibung Test-/Kontrollgruppe),
+mt, sdt, nt  (Mittelwert, SD, n Testgruppe)
+mk, sdk, nk  (Mittelwert, SD, n Kontrollgruppe)
+werkstoff_t / werkstoff_k, ofm_klasse, quelle, anmerkung
+"""
+
+# ============================================================================
+# A1  PRAEKLINISCH IN VIVO: BIC (%) - Keramik vs. Titan
+#     Test = Keramik (Zirkonoxid/ATZ/Keramikkomposit), Kontrolle = Titan
+# ============================================================================
+A1_BIC_KERAMIK_VS_TITAN = [
+ dict(pmid="15515343", studie="Kohal 2004", jahr=2004, spezies="Affe (Macaca)", ort="Maxilla",
+      design="kontrolliert, Split-Mouth", zeit_w=39, belastet=True,
+      gruppe_t="ZrO2, sandgestrahlt", gruppe_k="Ti, sandgestrahlt + geaetzt",
+      mt=67.4, sdt=17.0, nt=12, mk=72.9, sdk=14.0, nk=12,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="abstract"),
+ dict(pmid="19077228", studie="Depprich 2008", jahr=2008, spezies="Minipig", ort="Tibia",
+      design="kontrolliert", zeit_w=12, belastet=False,
+      gruppe_t="ZrO2, saeuremodifiziert", gruppe_k="Ti, aufgeraut",
+      mt=71.4, sdt=17.8, nt=8, mk=82.9, sdk=10.7, nk=8,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="volltext",
+      anmerkung="12-Wochen-Zeitpunkt (laengster); 1 W und 4 W zusaetzlich berichtet"),
+ dict(pmid="19538335", studie="Lee 2009", jahr=2009, spezies="Kaninchen", ort="Femurkondyle",
+      design="kontrolliert, kontralateral", zeit_w=6, belastet=False,
+      gruppe_t="ZiUnite (por. ZrO2)", gruppe_k="TiUnite (anodisiert)",
+      mt=69.7, sdt=18.0, nt=10, mk=67.1, sdk=13.3, nk=10,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="abstract",
+      anmerkung="Abstract berichtet 69.7+/-5.7 bzw. 67.1+/-4.2; bei n=10 als SEM "
+                "interpretiert und mit SD = SEM*sqrt(n) umgerechnet (Sensitivitaetsanalyse)"),
+ dict(pmid="21806681", studie="Gahlert 2012", jahr=2012, spezies="Minipig", ort="Maxilla",
+      design="kontrolliert", zeit_w=12, belastet=False,
+      gruppe_t="ZrO2, saeuregeaetzt", gruppe_k="Ti-SLA",
+      mt=70.0, sdt=14.5, nt=16, mk=83.7, sdk=10.3, nk=18,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="abstract", imputiert=True,
+      anmerkung="Abstract nennt nur Spannweiten ueber drei Zeitpunkte; hier oberer "
+                "Spannweitenwert dem 12-Wochen-Zeitpunkt zugeordnet - Annahme, in "
+                "Sensitivitaetsanalyse ausgeschlossen"),
+ dict(pmid="26362505", studie="Thoma 2015", jahr=2015, spezies="Hund", ort="Mandibula",
+      design="kontrolliert, randomisiert", zeit_w=52, belastet=True,
+      gruppe_t="ZrO2 einteilig (ZD)", gruppe_k="Ti einteilig (STM)",
+      mt=78.6, sdt=17.3, nt=6, mk=87.9, sdk=13.6, nk=6,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="abstract"),
+ dict(pmid="25671626", studie="Montero 2015", jahr=2015, spezies="Beagle", ort="Mandibula",
+      design="kontrolliert, Sofortimplantation", zeit_w=20, belastet=False,
+      gruppe_t="ZrO2 individuell", gruppe_k="Ti",
+      mt=57.0, sdt=15.2, nt=16, mk=56.5, sdk=14.4, nk=16,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="abstract"),
+ dict(pmid="28058261", studie="Siddiqi 2016", jahr=2016, spezies="Schaf", ort="Mandibula",
+      design="kontrolliert, gepaart", zeit_w=12, belastet=False,
+      gruppe_t="ZrO2 einteilig", gruppe_k="Ti einteilig",
+      mt=72.2, sdt=23.7, nt=10, mk=60.3, sdk=22.4, nk=10,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="volltext",
+      anmerkung="Kieferlokalisation; Femurwerte (85.5+/-14.1 vs. 78.9+/-18.5) in Sensitivitaetsanalyse"),
+ dict(pmid="30875729", studie="Gehrke 2019", jahr=2019, spezies="Kaninchen", ort="Tibia",
+      design="kontrolliert, randomisiert", zeit_w=6, belastet=False,
+      gruppe_t="ZrO2", gruppe_k="Ti, oberflaechenbehandelt (TiT)",
+      mt=34.0, sdt=6.82, nt=10, mk=37.8, sdk=4.84, nk=10,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="volltext"),
+ dict(pmid="32914271", studie="Thome 2021", jahr=2021, spezies="Minipig", ort="Mandibula",
+      design="kontrolliert, Split-Mouth", zeit_w=8, belastet=False,
+      gruppe_t="ZrO2 spritzgegossen", gruppe_k="Ti (Alvim)",
+      mt=77.8, sdt=6.9, nt=18, mk=80.7, sdk=6.9, nk=18,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="abstract"),
+ dict(pmid="34238605", studie="Chacun 2021", jahr=2021, spezies="Beagle", ort="Mandibula",
+      design="kontrolliert, Split-Mouth", zeit_w=13, belastet=False,
+      gruppe_t="ZrO2-Keramikkomposit, sandgestrahlt+geaetzt", gruppe_k="Ti, sandgestrahlt+geaetzt",
+      mt=86.1, sdt=13.8, nt=24, mk=92.0, sdk=8.6, nk=24,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="abstract"),
+ dict(pmid="34442927", studie="Kim 2021", jahr=2021, spezies="Kaninchen", ort="Tibia",
+      design="kontrolliert", zeit_w=4, belastet=False,
+      gruppe_t="ZrO2, additiv gefertigt", gruppe_k="Ti-SLA",
+      mt=81.19, sdt=5.79, nt=4, mk=90.52, sdk=2.64, nk=4,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="volltext"),
+ dict(pmid="35955254", studie="Duncan 2022", jahr=2022, spezies="Schaf", ort="Femurkondyle",
+      design="kontrolliert", zeit_w=12, belastet=False,
+      gruppe_t="ZrO2 einteilig (ZC)", gruppe_k="Ti einteilig, geblastet",
+      mt=76.0, sdt=20.0, nt=10, mk=80.0, sdk=19.0, nk=10,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="volltext"),
+ dict(pmid="41180328", studie="Park 2025", jahr=2025, spezies="Kaninchen", ort="Tibia",
+      design="kontrolliert", zeit_w=6, belastet=False,
+      gruppe_t="(Y,Nb)-TZP, sandgestrahlt", gruppe_k="Ti-SLA",
+      mt=92.41, sdt=3.25, nt=8, mk=71.44, sdk=7.83, nk=8,
+      werkstoff_t="ZrO2", werkstoff_k="cpTi", quelle="volltext", imputiert=True,
+      anmerkung="Median (IQR) berichtet; SD = IQR/1.35 nach Wan et al. 2014"),
+]
+
+# ============================================================================
+# B1  PRAEKLINISCH/HUMAN: BIC (%) - modifizierte vs. maschinierte Oberflaeche
+#     Test = oberflaechenmodifiziert, Kontrolle = maschiniert/gedreht/poliert/unbehandelt
+# ============================================================================
+B1_BIC_OFM_VS_MASCHINIERT = [
+ # --- Tierexperimentell ---
+ dict(pmid="15015945", studie="Weng 2003", jahr=2003, spezies="Hund", ort="Mandibula",
+      design="kontrolliert", zeit_w=16, belastet=False, strang="Tier",
+      gruppe_t="Osseotite (doppelt saeuregeaetzt)", gruppe_k="maschiniert",
+      mt=62.9, sdt=12.4, nt=10, mk=39.5, sdk=13.0, nk=10,
+      ofm_klasse="subtraktiv (Aetzung)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="14731177", studie="Veis 2004", jahr=2004, spezies="Hund", ort="Os ilium",
+      design="kontrolliert, Split-Design", zeit_w=20, belastet=False, strang="Tier",
+      gruppe_t="Osseotite", gruppe_k="maschiniert",
+      mt=32.32, sdt=15.09, nt=22, mk=17.25, sdk=7.40, nk=22,
+      ofm_klasse="subtraktiv (Aetzung)", werkstoff="cpTi", quelle="abstract",
+      anmerkung="Ortsbezogen: basaler Knochen; im Augmentat 46.44+/-15.81 vs. 28.59+/-12.04"),
+ dict(pmid="19291368", studie="Rong 2009", jahr=2009, spezies="Kaninchen", ort="Tibia",
+      design="kontrolliert", zeit_w=4, belastet=False, strang="Tier",
+      gruppe_t="Laser + saeuregeaetzt", gruppe_k="gedreht (turned)",
+      mt=49.71, sdt=9.21, nt=14, mk=27.30, sdk=6.55, nk=14,
+      ofm_klasse="physikalisch-chemisch (Laser+Aetzung)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="21165249", studie="Kim 2009", jahr=2009, spezies="Beagle", ort="Mandibula",
+      design="kontrolliert, frueh belastet", zeit_w=14, belastet=True, strang="Tier",
+      gruppe_t="Mg-anodisiert", gruppe_k="gedreht",
+      mt=54.5, sdt=8.4, nt=18, mk=45.3, sdk=12.2, nk=18,
+      ofm_klasse="additiv/chemisch (Anodisierung)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="19492637", studie="Ribeiro 2009", jahr=2009, spezies="Ratte", ort="Tibia",
+      design="kontrolliert, randomisiert", zeit_w=8.6, belastet=False, strang="Tier",
+      gruppe_t="Al2O3-gestrahlt", gruppe_k="maschiniert",
+      mt=45.92, sdt=11.34, nt=14, mk=39.48, sdk=10.18, nk=14,
+      ofm_klasse="subtraktiv (Strahlen)", werkstoff="cpTi", quelle="abstract",
+      anmerkung="Kochsalz-Kontrollarm (ohne COX-2-Hemmer)"),
+ dict(pmid="20464316", studie="Xavier 2010", jahr=2010, spezies="Hund", ort="Mandibula",
+      design="kontrolliert", zeit_w=8, belastet=False, strang="Tier",
+      gruppe_t="mikroraue Oberflaeche", gruppe_k="maschiniert",
+      mt=51.2, sdt=21.0, nt=16, mk=48.6, sdk=18.1, nk=16,
+      ofm_klasse="subtraktiv", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="20878388", studie="Xiao 2011", jahr=2011, spezies="Schaf (OVX)", ort="Mandibula",
+      design="kontrolliert", zeit_w=12, belastet=False, strang="Tier",
+      gruppe_t="HF-geaetzt + anodisiert (Mikro/Nano)", gruppe_k="maschiniert",
+      mt=58.31, sdt=5.79, nt=10, mk=46.85, sdk=5.04, nk=10,
+      ofm_klasse="physikalisch-chemisch (Mikro/Nano)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="22697421", studie="Ballo 2013", jahr=2013, spezies="Ratte", ort="Tibia",
+      design="kontrolliert, randomisiert", zeit_w=1, belastet=False, strang="Tier",
+      gruppe_t="PVD-TiO2 120 nm", gruppe_k="maschiniert",
+      mt=39.0, sdt=14.0, nt=16, mk=22.0, sdk=9.0, nk=16,
+      ofm_klasse="additiv (PVD-Beschichtung)", werkstoff="cpTi", quelle="abstract",
+      anmerkung="7-Tage-Zeitpunkt; nach 28 Tagen kein Unterschied (Werte nicht berichtet)"),
+ dict(pmid="23564723", studie="Stuebinger 2013", jahr=2013, spezies="Schaf", ort="Becken",
+      design="kontrolliert", zeit_w=8, belastet=False, strang="Tier",
+      gruppe_t="additiv gefertigt, poroes (DMLS)", gruppe_k="maschiniert",
+      mt=43.91, sdt=9.69, nt=6, mk=25.33, sdk=4.61, nk=6,
+      ofm_klasse="Makro-/Mikroporositaet", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="26507647", studie="Ou 2016", jahr=2016, spezies="Minipig", ort="Mandibula",
+      design="kontrolliert", zeit_w=8, belastet=False, strang="Tier",
+      gruppe_t="SLAffinity (SLA + elektrochem. Oxidation)", gruppe_k="maschiniert (M-Ti)",
+      mt=84.3, sdt=8.1, nt=12, mk=76.5, sdk=6.3, nk=12,
+      ofm_klasse="physikalisch-chemisch", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="26567087", studie="Schmitt 2016", jahr=2016, spezies="Beagle", ort="Mandibula",
+      design="kontrolliert, randomisiert", zeit_w=26, belastet=False, strang="Tier",
+      gruppe_t="gestrahlt + geaetzt (FRIADENT plus)", gruppe_k="maschiniert",
+      mt=48.3, sdt=10.6, nt=20, mk=66.3, sdk=30.2, nk=20,
+      ofm_klasse="subtraktiv", werkstoff="cpTi", quelle="abstract",
+      anmerkung="ROI 2/3 (apikal); Ergebnis zugunsten der maschinierten Kontrolle"),
+ dict(pmid="28008710", studie="Fu 2017", jahr=2017, spezies="Beagle", ort="Mandibula",
+      design="kontrolliert, Sofortimplantation", zeit_w=12, belastet=False, strang="Tier",
+      gruppe_t="Mikro/Nano-texturiert (HF + Anodisierung)", gruppe_k="maschiniert",
+      mt=63.38, sdt=7.63, nt=8, mk=47.13, sdk=6.2, nk=8,
+      ofm_klasse="physikalisch-chemisch (Mikro/Nano)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="28090744", studie="Cheng 2017", jahr=2017, spezies="Ratte", ort="Femur",
+      design="kontrolliert", zeit_w=12, belastet=False, strang="Tier",
+      gruppe_t="HF-Aetzung + Magnetronsputtern", gruppe_k="maschiniert",
+      mt=74.78, sdt=4.40, nt=8, mk=56.03, sdk=3.23, nk=8,
+      ofm_klasse="physikalisch-chemisch (Mikro/Nano)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="27530186", studie="Queiroz 2017", jahr=2017, spezies="Kaninchen", ort="Tibia",
+      design="kontrolliert, randomisiert", zeit_w=13, belastet=False, strang="Tier",
+      gruppe_t="lasermodifiziert (LS)", gruppe_k="maschiniert (MS)",
+      mt=79.69, sdt=3.3, nt=5, mk=51.31, sdk=6.96, nk=5,
+      ofm_klasse="physikalisch (Laser)", werkstoff="cpTi", quelle="abstract",
+      anmerkung="90-Tage-Zeitpunkt"),
+ dict(pmid="31190347", studie="Hou 2019", jahr=2019, spezies="Ratte", ort="Maxilla",
+      design="kontrolliert", zeit_w=4, belastet=False, strang="Tier",
+      gruppe_t="maessig rau", gruppe_k="gedreht (turned)",
+      mt=72.99, sdt=6.60, nt=10, mk=47.62, sdk=18.19, nk=10,
+      ofm_klasse="subtraktiv", werkstoff="cpTi", quelle="abstract",
+      anmerkung="gesunder Kontrollarm (ohne Zoledronat), Tag 28"),
+ dict(pmid="31010110", studie="Gehrke 2019b", jahr=2019, spezies="Kaninchen", ort="Tibia",
+      design="kontrolliert, randomisiert", zeit_w=4, belastet=False, strang="Tier",
+      gruppe_t="Mikrorillen + Doppelsaeureaetzung (G3)", gruppe_k="maschiniert (G1)",
+      mt=68.65, sdt=9.98, nt=12, mk=50.45, sdk=9.57, nk=12,
+      ofm_klasse="physikalisch-chemisch", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="30875729", studie="Gehrke 2019", jahr=2019, spezies="Kaninchen", ort="Tibia",
+      design="kontrolliert, randomisiert", zeit_w=6, belastet=False, strang="Tier",
+      gruppe_t="Ti oberflaechenbehandelt (TiT)", gruppe_k="Ti maschiniert (TiM)",
+      mt=37.8, sdt=4.84, nt=10, mk=35.4, sdk=4.54, nk=10,
+      ofm_klasse="subtraktiv", werkstoff="cpTi", quelle="volltext"),
+ dict(pmid="34955235", studie="Li 2022", jahr=2022, spezies="Kaninchen", ort="Femurkondyle",
+      design="kontrolliert", zeit_w=14, belastet=False, strang="Tier",
+      gruppe_t="Titanfasernetz-Beschichtung (TFM-22)", gruppe_k="unbeschichtet",
+      mt=64.9, sdt=14.0, nt=9, mk=23.6, sdk=17.4, nk=10,
+      ofm_klasse="additiv (Faserbeschichtung)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="40252976", studie="Niu 2025", jahr=2025, spezies="Ratte", ort="Femur",
+      design="kontrolliert", zeit_w=12, belastet=False, strang="Tier",
+      gruppe_t="HF-Gradientenaetzung (Gruppe d)", gruppe_k="poliert",
+      mt=40.93, sdt=2.71, nt=14, mk=22.41, sdk=2.86, nk=14,
+      ofm_klasse="subtraktiv (Aetzung)", werkstoff="cpTi", quelle="abstract"),
+ # --- Humane Histologie (Mikroimplantate) ---
+ dict(pmid="16850464", studie="Shibli 2007a", jahr=2007, spezies="Mensch", ort="Kiefer",
+      design="kontrolliert, intraindividuell", zeit_w=8.7, belastet=False, strang="Mensch",
+      gruppe_t="anodisiert/oxidiert", gruppe_k="maschiniert",
+      mt=39.04, sdt=15.75, nt=13, mk=21.71, sdk=13.11, nk=13,
+      ofm_klasse="additiv/chemisch (Anodisierung)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="17846541", studie="Shibli 2007b", jahr=2007, spezies="Mensch", ort="Maxilla post.",
+      design="kontrolliert, intraindividuell", zeit_w=8.7, belastet=False, strang="Mensch",
+      gruppe_t="anodisiert/oxidiert", gruppe_k="gedreht (turned)",
+      mt=32.19, sdt=15.68, nt=7, mk=17.40, sdk=14.16, nk=7,
+      ofm_klasse="additiv/chemisch (Anodisierung)", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="17410906", studie="Grassi 2007", jahr=2007, spezies="Mensch", ort="Maxilla post.",
+      design="kontrolliert, intraindividuell", zeit_w=8.7, belastet=False, strang="Mensch",
+      gruppe_t="sandgestrahlt + saeuregeaetzt", gruppe_k="maschiniert",
+      mt=40.08, sdt=9.89, nt=5, mk=20.66, sdk=14.54, nk=5,
+      ofm_klasse="subtraktiv", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="20426584", studie="dAvila 2010", jahr=2010, spezies="Mensch (Raucher)", ort="Maxilla post.",
+      design="kontrolliert, intraindividuell", zeit_w=8.7, belastet=False, strang="Mensch",
+      gruppe_t="sandgestrahlt + saeuregeaetzt", gruppe_k="maschiniert",
+      mt=22.19, sdt=14.68, nt=7, mk=10.40, sdk=14.16, nk=7,
+      ofm_klasse="subtraktiv", werkstoff="cpTi", quelle="abstract"),
+ dict(pmid="36678110", studie="Makary 2023", jahr=2023, spezies="Mensch", ort="Maxilla post.",
+      design="RCT, Split-Mouth", zeit_w=6, belastet=False, strang="Mensch",
+      gruppe_t="SLA", gruppe_k="maschiniert (MAC)",
+      mt=33.7, sdt=3.3, nt=13, mk=29.0, sdk=3.1, nk=6,
+      ofm_klasse="subtraktiv", werkstoff="cpTi", quelle="abstract",
+      anmerkung="6-Wochen-Zeitpunkt; zusaetzlicher Arm XPEED 38.6+/-3.2 (n=16)"),
+]
+
+# ============================================================================
+# B2  PRAEKLINISCH: biomechanische Verankerung (Ausdrehmoment / Push-in)
+#     - unterschiedliche Skalen -> standardisierte Mittelwertdifferenz
+# ============================================================================
+B2_BIOMECHANIK_OFM_VS_MASCHINIERT = [
+ dict(pmid="9555202", studie="Klokkevold 1997", jahr=1997, spezies="Kaninchen", ort="Femur",
+      zeit_w=8, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="saeuregeaetzt (Osseotite)", gruppe_k="maschiniert",
+      mt=20.50, sdt=6.59, nt=10, mk=4.95, sdk=1.61, nk=10,
+      ofm_klasse="subtraktiv (Aetzung)", quelle="abstract"),
+ dict(pmid="11488864", studie="Klokkevold 2001", jahr=2001, spezies="Kaninchen", ort="Femur",
+      zeit_w=12, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="doppelt saeuregeaetzt (DAE)", gruppe_k="maschiniert",
+      mt=27.40, sdt=3.89, nt=6, mk=6.73, sdk=0.95, nk=6,
+      ofm_klasse="subtraktiv (Aetzung)", quelle="abstract",
+      anmerkung="3-Monats-Zeitpunkt; TPS-Arm 59.23+/-3.88 separat"),
+ dict(pmid="14530083", studie="Cho 2003", jahr=2003, spezies="Kaninchen", ort="Tibia",
+      zeit_w=8, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="lasermodifiziert", gruppe_k="maschiniert",
+      mt=62.57, sdt=10.44, nt=7, mk=23.58, sdk=3.71, nk=7,
+      ofm_klasse="physikalisch (Laser)", quelle="abstract"),
+ dict(pmid="19291368", studie="Rong 2009", jahr=2009, spezies="Kaninchen", ort="Tibia",
+      zeit_w=4, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="Laser + saeuregeaetzt", gruppe_k="gedreht",
+      mt=35.76, sdt=7.58, nt=14, mk=13.21, sdk=11.30, nk=14,
+      ofm_klasse="physikalisch-chemisch", quelle="abstract"),
+ dict(pmid="21189089", studie="Lee 2011", jahr=2011, spezies="Ratte", ort="Tibia",
+      zeit_w=4, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="anodisiert + waermebehandelt (AH)", gruppe_k="maschiniert (MT)",
+      mt=14.80, sdt=2.34, nt=12, mk=6.20, sdk=1.33, nk=12,
+      ofm_klasse="additiv/chemisch (Anodisierung)", quelle="abstract"),
+ dict(pmid="23112925", studie="Karmarker 2012", jahr=2012, spezies="Kaninchen", ort="Tibia",
+      zeit_w=6, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="anodisiert", gruppe_k="maschiniert",
+      mt=3.79, sdt=1.39, nt=18, mk=2.05, sdk=1.07, nk=18,
+      ofm_klasse="additiv/chemisch (Anodisierung)", quelle="abstract"),
+ dict(pmid="23564723", studie="Stuebinger 2013", jahr=2013, spezies="Schaf", ort="Becken",
+      zeit_w=8, groesse="Ausdrehmoment (Nmm)",
+      gruppe_t="additiv gefertigt, poroes", gruppe_k="maschiniert",
+      mt=1891.82, sdt=308.44, nt=6, mk=198.93, sdk=88.04, nk=6,
+      ofm_klasse="Makro-/Mikroporositaet", quelle="abstract"),
+ dict(pmid="26507647", studie="Ou 2016", jahr=2016, spezies="Minipig", ort="Tibia",
+      zeit_w=8, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="SLAffinity", gruppe_k="maschiniert (M-Ti)",
+      mt=84.5, sdt=8.7, nt=12, mk=62.95, sdk=11.5, nk=12,
+      ofm_klasse="physikalisch-chemisch", quelle="abstract"),
+ dict(pmid="29957307", studie="Jang 2018", jahr=2018, spezies="Kaninchen", ort="Tibia",
+      zeit_w=7, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="saeuregeaetzt (EG)", gruppe_k="maschiniert (CG)",
+      mt=5.89, sdt=0.70, nt=14, mk=3.38, sdk=0.54, nk=14,
+      ofm_klasse="subtraktiv (Aetzung)", quelle="abstract"),
+ dict(pmid="30875729", studie="Gehrke 2019", jahr=2019, spezies="Kaninchen", ort="Tibia",
+      zeit_w=6, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="Ti oberflaechenbehandelt (TiT)", gruppe_k="Ti maschiniert (TiM)",
+      mt=27.9, sdt=5.15, nt=10, mk=15.9, sdk=4.18, nk=10,
+      ofm_klasse="subtraktiv", quelle="volltext"),
+ dict(pmid="36424809", studie="Byeon 2022", jahr=2022, spezies="Ratte", ort="Tibia",
+      zeit_w=4, groesse="Ausdrehmoment (Ncm)",
+      gruppe_t="anodisiert + waermebehandelt (AH)", gruppe_k="unbehandelt (UT)",
+      mt=4.10, sdt=0.72, nt=10, mk=2.08, sdk=0.67, nk=10,
+      ofm_klasse="additiv/chemisch (Anodisierung)", quelle="abstract",
+      anmerkung="zusaetzlicher Arm ASPH 6.58+/-0.66"),
+]
+
+# ============================================================================
+# C  KLINISCH: Zirkonoxid- vs. Titanimplantate
+# ============================================================================
+# C1: Implantatverlust (Ereignisse / Gesamt)
+C1_KLIN_VERLUST = [
+ dict(pmid="24118368", studie="Osman 2014", jahr=2014, design="RCT", land="Neuseeland",
+      nachbeob_mo=12, et=11, nt=42, ek=10, nk=56,
+      anmerkung="Deckprothesen. Nenner aus den berichteten Ueberlebensraten rekonstruiert "
+                "(UK: ZrO2 90.9 %=20/22, Ti 95.8 %=23/24; OK: ZrO2 55 %=11/20, Ti 71.9 %=23/32); "
+                "alle vier Prozentwerte werden exakt reproduziert. In Sensitivitaetsanalyse geprueft.",
+      quelle="abstract", unsicher=True),
+ dict(pmid="36424624", studie="Hassouna 2022", jahr=2022, design="prospektiv kontrolliert", land="Aegypten",
+      nachbeob_mo=60, et=0, nt=14, ek=0, nk=14, quelle="abstract",
+      anmerkung="Doppelnullstudie - traegt nicht zum RR-Pool bei"),
+ dict(pmid="38567929", studie="de Beus 2024", jahr=2024, design="RCT", land="Niederlande",
+      nachbeob_mo=12, et=1, nt=25, ek=0, nk=25, quelle="abstract",
+      anmerkung="1-Jahres-Auswertung; 3-Jahres-Publikation derselben Kohorte separat"),
+ dict(pmid="40297919", studie="Sterzenbach 2025", jahr=2025, design="RCT", land="Deutschland",
+      nachbeob_mo=36, et=3, nt=30, ek=0, nk=30, quelle="volltext",
+      anmerkung="drei Verluste nach Baseline; zusaetzlich drei revidierte Fruehverluste"),
+ dict(pmid="41164498", studie="Sailo 2025", jahr=2025, design="prospektiv kontrolliert", land="Indien",
+      nachbeob_mo=60, et=6, nt=100, ek=4, nk=100, quelle="abstract"),
+ dict(pmid="41329244", studie="Herber 2025", jahr=2025, design="prospektive Kohorte", land="Oesterreich",
+      nachbeob_mo=108, et=8, nt=22, ek=2, nk=11, quelle="abstract"),
+ dict(pmid="41571616", studie="Balmer 2026", jahr=2026, design="RCT, multizentrisch", land="Schweiz",
+      nachbeob_mo=12, et=0, nt=61, ek=2, nk=57, quelle="volltext"),
+ dict(pmid="42188380", studie="Kniha 2026", jahr=2026, design="RCT, Split-Mouth", land="Deutschland",
+      nachbeob_mo=36, et=1, nt=36, ek=0, nk=36, quelle="volltext"),
+]
+# C2: Marginaler Knochenverlust (mm), Zirkonoxid vs. Titan
+C2_KLIN_MBL = [
+ dict(pmid="36424624", studie="Hassouna 2022", jahr=2022, design="prospektiv kontrolliert",
+      nachbeob_mo=60, mt=1.77, sdt=0.39, nt=14, mk=1.80, sdk=0.28, nk=14, quelle="abstract",
+      imputiert=True, anmerkung="Abstract nennt SD 0.039 fuer ZrO2 - biologisch implausibel; "
+      "als Tippfehler fuer 0.39 gewertet, Sensitivitaetsanalyse ohne diese Studie"),
+ dict(pmid="39056305", studie="Zuercher 2024", jahr=2024, design="RCT, intraindividuell",
+      nachbeob_mo=12, mt=0.10, sdt=0.40, nt=42, mk=-0.10, sdk=0.70, nk=42, quelle="abstract"),
+ dict(pmid="42310881", studie="de Beus 2026", jahr=2026, design="RCT",
+      nachbeob_mo=36, mt=-0.02, sdt=0.78, nt=23, mk=-0.04, sdk=0.36, nk=24, quelle="volltext",
+      anmerkung="3-Jahres-Auswertung derselben Kohorte wie de Beus 2024"),
+ dict(pmid="41571616", studie="Balmer 2026", jahr=2026, design="RCT, multizentrisch",
+      nachbeob_mo=12, mt=0.08, sdt=0.51, nt=55, mk=0.07, sdk=0.55, nk=55, quelle="volltext",
+      anmerkung="Veraenderung Kroneneingliederung -> 1 Jahr"),
+ dict(pmid="42188380", studie="Kniha 2026", jahr=2026, design="RCT, Split-Mouth",
+      nachbeob_mo=36, mt=0.1190, sdt=0.1539, nt=36, mk=0.0463, sdk=0.0424, nk=36, quelle="volltext"),
+]
+# C3: Einarmige Poolung der Ueberlebensrate keramischer Implantate
+C3_KERAMIK_UEBERLEBEN = [
+ dict(pmid="20369093", studie="Oliva 2010", jahr=2010, nachbeob_mo=60, ereignisse=790, n=831,
+      anmerkung="Erfolgsrate 95 %", quelle="abstract"),
+ dict(pmid="25801578", studie="Borgonovo 2016", jahr=2016, nachbeob_mo=84, ereignisse=125, n=161, quelle="abstract"),
+ dict(pmid="35904838", studie="Gahlert 2022", jahr=2022, nachbeob_mo=60, ereignisse=43, n=44, quelle="abstract"),
+ dict(pmid="36583946", studie="Sala 2023", jahr=2023, nachbeob_mo=60, ereignisse=25, n=29, quelle="abstract"),
+ dict(pmid="37083912", studie="Oliva 2023", jahr=2023, nachbeob_mo=180, ereignisse=1804, n=1828, quelle="abstract"),
+ dict(pmid="38886209", studie="da Silva 2024", jahr=2024, nachbeob_mo=12, ereignisse=64, n=65, quelle="abstract"),
+ dict(pmid="39177692", studie="Mayer 2024", jahr=2024, nachbeob_mo=12, ereignisse=8, n=9, quelle="abstract"),
+ dict(pmid="39868811", studie="Kohal 2025a", jahr=2025, nachbeob_mo=60, ereignisse=36, n=54, quelle="abstract"),
+ dict(pmid="40518040", studie="Kohal 2025b", jahr=2025, nachbeob_mo=120, ereignisse=33, n=54, quelle="abstract",
+      anmerkung="10-Jahres-Auswertung derselben Kohorte wie Kohal 2025a - nur eine in Hauptanalyse"),
+ dict(pmid="40358436", studie="Giulini 2025", jahr=2025, nachbeob_mo=24, ereignisse=32, n=32, quelle="abstract"),
+ dict(pmid="40736783", studie="Tartsch 2026", jahr=2026, nachbeob_mo=39, ereignisse=164, n=167, quelle="abstract"),
+ dict(pmid="40859747", studie="Trimpou 2025", jahr=2025, nachbeob_mo=12, ereignisse=16, n=20, quelle="abstract",
+      anmerkung="Ueberleben 80 %; vier Verluste, 16 Implantate final ausgewertet"),
+ dict(pmid="41568986", studie="Roehling 2026", jahr=2026, nachbeob_mo=120, ereignisse=43, n=44, quelle="abstract",
+      anmerkung="10-Jahres-Ueberleben 97.7 % entspricht exakt 43/44 der eingeschlossenen Implantate"),
+ dict(pmid="41569318", studie="Atalay 2026", jahr=2026, nachbeob_mo=29, ereignisse=67, n=80, quelle="abstract"),
+ dict(pmid="42187660", studie="Cortes-Breton 2026", jahr=2026, nachbeob_mo=61, ereignisse=265, n=307, quelle="abstract"),
+ dict(pmid="42616228", studie="Jennes 2026", jahr=2026, nachbeob_mo=36, ereignisse=14, n=23, quelle="abstract"),
+]
+
+ALLE = dict(A1=A1_BIC_KERAMIK_VS_TITAN, B1=B1_BIC_OFM_VS_MASCHINIERT,
+            B2=B2_BIOMECHANIK_OFM_VS_MASCHINIERT, C1=C1_KLIN_VERLUST,
+            C2=C2_KLIN_MBL, C3=C3_KERAMIK_UEBERLEBEN)
+
+if __name__ == "__main__":
+    import csv, os, json
+    HERE = os.path.dirname(os.path.abspath(__file__))
+    for k, v in ALLE.items():
+        print(f"{k}: {len(v)} Vergleiche")
+        keys = []
+        for r in v:
+            for kk in r:
+                if kk not in keys: keys.append(kk)
+        with open(os.path.join(HERE, f"extraktion_{k}.csv"), "w", newline="", encoding="utf-8-sig") as f:
+            w = csv.DictWriter(f, fieldnames=keys, delimiter=";")
+            w.writeheader(); w.writerows(v)
+    json.dump({k: v for k, v in ALLE.items()},
+              open(os.path.join(HERE, "extraktion_gesamt.json"), "w"), indent=1, ensure_ascii=False)
+    pm = set()
+    for v in ALLE.values(): pm |= {r["pmid"] for r in v}
+    print("eindeutige Studien insgesamt:", len(pm))
+    open(os.path.join(HERE, "eingeschlossene_pmids.txt"), "w").write("\n".join(sorted(pm, key=int)))
+
+# ============================================================================
+# Q  Studien, die die Einschlusskriterien erfuellen, aber keine poolbaren
+#    Kennwerte berichten (Mittelwert ohne Streuungsmass, nur Grafik, nur Median
+#    ohne Streuung o. ae.). Sie gehen in die qualitative Synthese ein.
+# ============================================================================
+QUALITATIV = [
+ dict(pmid="16137083", studie="Sennerby 2005", strang="praeklinisch", grund="Ausdrehmoment ohne Kennwerte im Bericht"),
+ dict(pmid="18807566", studie="Hoffmann 2008", strang="praeklinisch", grund="rein deskriptive Histologie"),
+ dict(pmid="18977118", studie="Langhoff 2008", strang="praeklinisch", grund="BIC nur als Spannweite"),
+ dict(pmid="19298287", studie="Kohal 2009", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="19604281", studie="Rocchietta 2009", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="20172693", studie="Stadlinger 2010", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="20573183", studie="Schliephake 2010", strang="praeklinisch", grund="Kennwerte nur grafisch"),
+ dict(pmid="20831757", studie="Shin 2011", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="21905894", studie="Aboushelib 2013", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="22442775", studie="Hoffmann 2012", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="22471790", studie="Park 2013", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="23107438", studie="Salem 2013", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="24138572", studie="Calvo-Guirado 2015", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="25025856", studie="Gredes 2014", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="26438994", studie="Igarashi 2015", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="26621027", studie="Kohal 2016", strang="praeklinisch", grund="BIC und Push-in ohne Streuungsmass"),
+ dict(pmid="26969899", studie="Linares 2016", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="27501958", studie="Mihatovic 2017", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="29044523", studie="Martins 2018", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="29288505", studie="Janner 2018", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="29303416", studie="Huang 2018", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="29900480", studie="Mostafa 2018", strang="praeklinisch", grund="nur Keramik-Binnenvergleich"),
+ dict(pmid="29912481", studie="Kubasiewicz-Ross 2018", strang="praeklinisch", grund="BIC ohne Streuungsmass"),
+ dict(pmid="29998938", studie="Igarashi 2018", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="35683331", studie="Aragoneses 2022", strang="praeklinisch", grund="BIC nur grafisch dargestellt"),
+ dict(pmid="36103094", studie="Glauser 2022", strang="praeklinisch", grund="Kontrollgruppe n = 1"),
+ dict(pmid="37429939", studie="Thu 2023", strang="praeklinisch", grund="Kennwerte nur grafisch"),
+ dict(pmid="40851380", studie="Zuo 2025", strang="praeklinisch", grund="Kennwerte nicht berichtet"),
+ dict(pmid="41585112", studie="Lin 2026", strang="praeklinisch", grund="nur Keramik-Binnenvergleich"),
+ dict(pmid="42232854", studie="Cha 2026", strang="praeklinisch", grund="Kennwerte nur grafisch, n = 3"),
+ dict(pmid="42268055", studie="Hauck 2026", strang="praeklinisch", grund="nur Keramik-Binnenvergleich"),
+ dict(pmid="38940623", studie="Ruiz Henao 2024", strang="klinisch", grund="keine Kennwerte fuer Knochenverlust"),
+ dict(pmid="39506212", studie="de Beus 2025", strang="klinisch", grund="Ueberlebensrate nicht numerisch berichtet"),
+ dict(pmid="42453851", studie="Kaur 2026", strang="klinisch", grund="nur Median ohne Streuungsmass"),
+ dict(pmid="42310881", studie="de Beus 2026", strang="klinisch", grund="in C2 enthalten (3-Jahres-Auswertung)"),
+]
+ALLE["Q"] = QUALITATIV

@@ -1,0 +1,6 @@
+﻿pmid;studie;jahr;design;nachbeob_mo;mt;sdt;nt;mk;sdk;nk;quelle;imputiert;anmerkung
+36424624;Hassouna 2022;2022;prospektiv kontrolliert;60;1.77;0.39;14;1.8;0.28;14;abstract;True;"Abstract nennt SD 0.039 fuer ZrO2 - biologisch implausibel; als Tippfehler fuer 0.39 gewertet, Sensitivitaetsanalyse ohne diese Studie"
+39056305;Zuercher 2024;2024;RCT, intraindividuell;12;0.1;0.4;42;-0.1;0.7;42;abstract;;
+42310881;de Beus 2026;2026;RCT;36;-0.02;0.78;23;-0.04;0.36;24;volltext;;3-Jahres-Auswertung derselben Kohorte wie de Beus 2024
+41571616;Balmer 2026;2026;RCT, multizentrisch;12;0.08;0.51;55;0.07;0.55;55;volltext;;Veraenderung Kroneneingliederung -> 1 Jahr
+42188380;Kniha 2026;2026;RCT, Split-Mouth;36;0.119;0.1539;36;0.0463;0.0424;36;volltext;;

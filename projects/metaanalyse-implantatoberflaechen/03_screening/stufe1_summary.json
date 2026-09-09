@@ -1,0 +1,20 @@
+{
+  "n_gesamt": 5168,
+  "n_weiter_stufe2": 2191,
+  "n_ausgeschlossen_stufe1": 2977,
+  "ausschlussgruende": {
+    "A5_keine_Oberflaechenmodifikation": 1822,
+    "A6_keine_relevante_Zielgroesse": 1006,
+    "A7_Studiendesign_unklar": 871,
+    "A1_Publikationstyp": 573,
+    "A4_kein_relevanter_Werkstoff": 223,
+    "A3_nicht_dental": 67,
+    "A2_kein_Abstract": 39
+  },
+  "analysestraenge_weiter": {
+    "praeklinisch_in_vivo": 1038,
+    "in_vitro": 866,
+    "klinisch": 244,
+    "unklar": 43
+  }
+}
