@@ -1,12 +1,12 @@
 ﻿pmid;studie;jahr;spezies;ort;zeit_w;groesse;gruppe_t;gruppe_k;mt;sdt;nt;mk;sdk;nk;ofm_klasse;quelle;anmerkung
-9555202;Klokkevold 1997;1997;Kaninchen;Femur;8;Ausdrehmoment (Ncm);saeuregeaetzt (Osseotite);maschiniert;20.5;6.59;10;4.95;1.61;10;subtraktiv (Aetzung);abstract;
-11488864;Klokkevold 2001;2001;Kaninchen;Femur;12;Ausdrehmoment (Ncm);doppelt saeuregeaetzt (DAE);maschiniert;27.4;3.89;6;6.73;0.95;6;subtraktiv (Aetzung);abstract;"3-Monats-Zeitpunkt; TPS-Arm 59.23+/-3.88 separat"
+9555202;Klokkevold 1997;1997;Kaninchen;Femur;8;Ausdrehmoment (Ncm);säuregeätzt (Osseotite);maschiniert;20.5;6.59;10;4.95;1.61;10;subtraktiv (Ätzung);abstract;
+11488864;Klokkevold 2001;2001;Kaninchen;Femur;12;Ausdrehmoment (Ncm);doppelt säuregeätzt (DAE);maschiniert;27.4;3.89;6;6.73;0.95;6;subtraktiv (Ätzung);abstract;"3-Monats-Zeitpunkt; TPS-Arm 59.23+/-3.88 separat"
 14530083;Cho 2003;2003;Kaninchen;Tibia;8;Ausdrehmoment (Ncm);lasermodifiziert;maschiniert;62.57;10.44;7;23.58;3.71;7;physikalisch (Laser);abstract;
-19291368;Rong 2009;2009;Kaninchen;Tibia;4;Ausdrehmoment (Ncm);Laser + saeuregeaetzt;gedreht;35.76;7.58;14;13.21;11.3;14;physikalisch-chemisch;abstract;
-21189089;Lee 2011;2011;Ratte;Tibia;4;Ausdrehmoment (Ncm);anodisiert + waermebehandelt (AH);maschiniert (MT);14.8;2.34;12;6.2;1.33;12;additiv/chemisch (Anodisierung);abstract;
+19291368;Rong 2009;2009;Kaninchen;Tibia;4;Ausdrehmoment (Ncm);Laser + säuregeätzt;gedreht;35.76;7.58;14;13.21;11.3;14;physikalisch-chemisch;abstract;
+21189089;Lee 2011;2011;Ratte;Tibia;4;Ausdrehmoment (Ncm);anodisiert + wärmebehandelt (AH);maschiniert (MT);14.8;2.34;12;6.2;1.33;12;additiv/chemisch (Anodisierung);abstract;
 23112925;Karmarker 2012;2012;Kaninchen;Tibia;6;Ausdrehmoment (Ncm);anodisiert;maschiniert;3.79;1.39;18;2.05;1.07;18;additiv/chemisch (Anodisierung);abstract;
-23564723;Stuebinger 2013;2013;Schaf;Becken;8;Ausdrehmoment (Nmm);additiv gefertigt, poroes;maschiniert;1891.82;308.44;6;198.93;88.04;6;Makro-/Mikroporositaet;abstract;
+23564723;Stübinger 2013;2013;Schaf;Becken;8;Ausdrehmoment (Nmm);additiv gefertigt, porös;maschiniert;1891.82;308.44;6;198.93;88.04;6;Makro-/Mikroporositaet;abstract;
 26507647;Ou 2016;2016;Minipig;Tibia;8;Ausdrehmoment (Ncm);SLAffinity;maschiniert (M-Ti);84.5;8.7;12;62.95;11.5;12;physikalisch-chemisch;abstract;
-29957307;Jang 2018;2018;Kaninchen;Tibia;7;Ausdrehmoment (Ncm);saeuregeaetzt (EG);maschiniert (CG);5.89;0.7;14;3.38;0.54;14;subtraktiv (Aetzung);abstract;
-30875729;Gehrke 2019;2019;Kaninchen;Tibia;6;Ausdrehmoment (Ncm);Ti oberflaechenbehandelt (TiT);Ti maschiniert (TiM);27.9;5.15;10;15.9;4.18;10;subtraktiv;volltext;
-36424809;Byeon 2022;2022;Ratte;Tibia;4;Ausdrehmoment (Ncm);anodisiert + waermebehandelt (AH);unbehandelt (UT);4.1;0.72;10;2.08;0.67;10;additiv/chemisch (Anodisierung);abstract;zusaetzlicher Arm ASPH 6.58+/-0.66
+29957307;Jang 2018;2018;Kaninchen;Tibia;7;Ausdrehmoment (Ncm);säuregeätzt (EG);maschiniert (CG);5.89;0.7;14;3.38;0.54;14;subtraktiv (Ätzung);abstract;
+30875729;Gehrke 2019;2019;Kaninchen;Tibia;6;Ausdrehmoment (Ncm);Ti oberflächenbehandelt (TiT);Ti maschiniert (TiM);27.9;5.15;10;15.9;4.18;10;subtraktiv;volltext;
+36424809;Byeon 2022;2022;Ratte;Tibia;4;Ausdrehmoment (Ncm);anodisiert + wärmebehandelt (AH);unbehandelt (UT);4.1;0.72;10;2.08;0.67;10;additiv/chemisch (Anodisierung);abstract;zusaetzlicher Arm ASPH 6.58+/-0.66

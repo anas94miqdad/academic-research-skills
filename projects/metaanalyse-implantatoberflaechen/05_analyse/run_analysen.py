@@ -38,10 +38,10 @@ rows = [ci_row(y[i], v[i], f"{r['studie']} ({r['spezies']}, {int(r['zeit_w'])} W
         for i, r in enumerate(rows_d)]
 bericht("A1_BIC_Keramik_vs_Titan", res)
 forest(rows, res, "Mittelwertdifferenz des Knochen-Implantat-Kontakts (%)",
-       "Abbildung 2: Knochen-Implantat-Kontakt – keramische vs. metallische Implantate (praeklinisch, in vivo)",
+       "Abbildung 2: Knochen-Implantat-Kontakt – keramische vs. metallische Implantate (präklinisch, in vivo)",
        os.path.join(ABB, "abb02_forest_A1_BIC_keramik_titan.png"),
        favours=("zugunsten Titan", "zugunsten Keramik"),
-       extra_lines="Positive Werte = hoeherer BIC bei keramischen Implantaten. Random-Effects-Modell (REML), "
+       extra_lines="Positive Werte = höherer BIC bei keramischen Implantaten. Random-Effects-Modell (REML), "
                    "Konfidenzintervall nach Hartung-Knapp-Sidik-Jonkman.")
 funnel(y, v, res, "Mittelwertdifferenz BIC (%)",
        "Abbildung 3: Funnel-Plot – Analyse A1", os.path.join(ABB, "abb03_funnel_A1.png"))
@@ -53,7 +53,7 @@ ERG["A1_BIC_Keramik_vs_Titan"]["trim_fill"] = dict(k0=tf["k0"], seite=tf["seite"
 loo = leave_one_out(y, v, [r["studie"] for r in rows_d])
 ERG["A1_BIC_Keramik_vs_Titan"]["leave_one_out"] = loo
 loo_plot(loo, res, "Mittelwertdifferenz BIC (%)",
-         "Abbildung 4: Leave-one-out-Sensitivitaetsanalyse – Analyse A1",
+         "Abbildung 4: Leave-one-out-Sensitivitätsanalyse – Analyse A1",
          os.path.join(ABB, "abb04_loo_A1.png"))
 # Subgruppen: Einheilzeit
 grp = np.array(["≤ 8 Wochen" if r["zeit_w"] <= 8 else "> 8 Wochen" for r in rows_d])
@@ -91,11 +91,11 @@ print("  Subgruppen:", {g: (round(r['est'], 2), r['k']) for g, r in sg["groups"]
       f"Q_between(RE)={sg['Q_between_re']:.2f}, p={sg['p_between_re']:.4f} | "
       f"Q_between(FE)={sg['Q_between']:.2f}, p={sg['p_between']:.4f}")
 forest(rows, res, "Mittelwertdifferenz des Knochen-Implantat-Kontakts (%)",
-       "Abbildung 5: Knochen-Implantat-Kontakt – oberflaechenmodifizierte vs. maschinierte Implantate",
+       "Abbildung 5: Knochen-Implantat-Kontakt – oberflächenmodifizierte vs. maschinierte Implantate",
        os.path.join(ABB, "abb05_forest_B1_BIC_ofm.png"),
        subgroups={g: sg["groups"][g] for g in order if g in sg["groups"]},
        favours=("zugunsten maschiniert", "zugunsten modifiziert"),
-       extra_lines="Positive Werte = hoeherer BIC nach Oberflaechenmodifikation. "
+       extra_lines="Positive Werte = höherer BIC nach Oberflächenmodifikation. "
                    f"Subgruppenunterschied (Random-Effects): Q = {sg['Q_between_re']:.2f}, p = {sg['p_between_re']:.3f}.")
 funnel(y, v, res, "Mittelwertdifferenz BIC (%)",
        "Abbildung 6: Funnel-Plot – Analyse B1", os.path.join(ABB, "abb06_funnel_B1.png"),
@@ -112,7 +112,7 @@ ERG["B1_BIC_OFM_vs_maschiniert"].update(
 loo = leave_one_out(y, v, [r["studie"] for r in rows_d])
 ERG["B1_BIC_OFM_vs_maschiniert"]["leave_one_out"] = loo
 loo_plot(loo, res, "Mittelwertdifferenz BIC (%)",
-         "Abbildung 7: Leave-one-out-Sensitivitaetsanalyse – Analyse B1",
+         "Abbildung 7: Leave-one-out-Sensitivitätsanalyse – Analyse B1",
          os.path.join(ABB, "abb07_loo_B1.png"))
 # Subgruppe nach Art der Modifikation
 grp2 = np.array([r["ofm_klasse"].split(" ")[0] for r in rows_d])
@@ -136,11 +136,11 @@ rows = [ci_row(g_[i], vg[i], f"{r['studie']} ({r['spezies']}, {int(r['zeit_w'])}
         for i, r in enumerate(rows_d)]
 bericht("B2_Biomechanik_OFM_vs_maschiniert", res)
 forest(rows, res, "Standardisierte Mittelwertdifferenz (Hedges' g)",
-       "Abbildung 8: Biomechanische Verankerung – oberflaechenmodifizierte vs. maschinierte Implantate",
+       "Abbildung 8: Biomechanische Verankerung – oberflächenmodifizierte vs. maschinierte Implantate",
        os.path.join(ABB, "abb08_forest_B2_biomechanik.png"),
        favours=("zugunsten maschiniert", "zugunsten modifiziert"),
-       extra_lines="Zielgroesse: Ausdrehmoment bzw. Ausdrueckkraft. Positive Werte = staerkere Verankerung "
-                   "nach Oberflaechenmodifikation.")
+       extra_lines="Zielgroesse: Ausdrehmoment bzw. Ausdrückkraft. Positive Werte = stärkere Verankerung "
+                   "nach Oberflächenmodifikation.")
 funnel(g_, vg, res, "Hedges' g", "Abbildung 9: Funnel-Plot – Analyse B2",
        os.path.join(ABB, "abb09_funnel_B2.png"))
 tf = trim_and_fill(g_, vg)
@@ -167,8 +167,8 @@ forest(rows, dict(res, est=math.exp(res["est"]), ci_lo=math.exp(res["ci_lo"]), c
        "Abbildung 10: Implantatverlust – Zirkonoxid- vs. Titanimplantate (klinisch)",
        os.path.join(ABB, "abb10_forest_C1_verlust.png"), effect="RR",
        favours=("zugunsten Zirkonoxid", "zugunsten Titan"),
-       extra_lines="RR > 1 = hoeheres Verlustrisiko bei Zirkonoxidimplantaten. Nullzellen mit "
-                   "Kontinuitaetskorrektur 0,5; Doppelnullstudien ausgeschlossen.")
+       extra_lines="RR > 1 = höheres Verlustrisiko bei Zirkonoxidimplantaten. Nullzellen mit "
+                   "Kontinuitätskorrektur 0,5; Doppelnullstudien ausgeschlossen.")
 loo = leave_one_out(lrr, vr, [r["studie"] for r in rows_d])
 ERG["C1_klinischer_Implantatverlust_ZrO2_vs_Ti"]["leave_one_out"] = [
     dict(x, est=math.exp(x["est"]), ci_lo=math.exp(x["ci_lo"]), ci_hi=math.exp(x["ci_hi"])) for x in loo]
@@ -189,7 +189,7 @@ forest(rows, res, "Mittelwertdifferenz des marginalen Knochenverlusts (mm)",
        "Abbildung 11: Marginaler Knochenverlust – Zirkonoxid- vs. Titanimplantate",
        os.path.join(ABB, "abb11_forest_C2_mbl.png"),
        favours=("zugunsten Zirkonoxid", "zugunsten Titan"),
-       extra_lines="Positive Werte = groesserer marginaler Knochenverlust um Zirkonoxidimplantate.")
+       extra_lines="Positive Werte = größerer marginaler Knochenverlust um Zirkonoxidimplantate.")
 loo = leave_one_out(y, v, [r["studie"] for r in rows_d])
 ERG["C2_marginaler_Knochenverlust_ZrO2_vs_Ti"]["leave_one_out"] = loo
 keep = [i for i, r in enumerate(rows_d) if not r.get("imputiert")]
@@ -207,7 +207,7 @@ p_lo, p_hi = ft_back(res["ci_lo"], nh), ft_back(res["ci_hi"], nh)
 bericht("C3_Ueberleben_Keramikimplantate", res,
         extra=dict(anteil=p_pool, anteil_ci=[p_lo, p_hi], n_harmonisch=nh,
                    gesamt_implantate=int(sum(r["n"] for r in rows_d))))
-print(f"  Gepoolte Ueberlebensrate = {p_pool*100:.1f} % [{p_lo*100:.1f}; {p_hi*100:.1f}]  "
+print(f"  Gepoolte Überlebensrate = {p_pool*100:.1f} % [{p_lo*100:.1f}; {p_hi*100:.1f}]  "
       f"(N = {sum(r['n'] for r in rows_d)} Implantate)")
 rows = []
 for i, r in enumerate(rows_d):
@@ -218,11 +218,11 @@ for i, r in enumerate(rows_d):
                      w=res["weights"][i]))
 pooled_disp = dict(res, est=p_pool * 100, ci_lo=p_lo * 100, ci_hi=p_hi * 100,
                    pi_lo=ft_back(res["pi_lo"], nh) * 100, pi_hi=ft_back(res["pi_hi"], nh) * 100)
-forest(rows, pooled_disp, "Ueberlebensrate (%)",
-       "Abbildung 12: Gepoolte Ueberlebensrate keramischer Dentalimplantate",
+forest(rows, pooled_disp, "Überlebensrate (%)",
+       "Abbildung 12: Gepoolte Überlebensrate keramischer Dentalimplantate",
        os.path.join(ABB, "abb12_forest_C3_ueberleben.png"), xlim=(40, 102),
-       extra_lines="Freeman-Tukey-Doppelarcussinus-Transformation, Ruecktransformation nach Miller "
-                   "mit harmonischem Mittel der Stichprobenumfaenge. Einarmige Poolung heterogener "
+       extra_lines="Freeman-Tukey-Doppelarcussinus-Transformation, Rücktransformation nach Miller "
+                   "mit harmonischem Mittel der Stichprobenumfänge. Einarmige Poolung heterogener "
                    "Nachbeobachtungszeiten - nur deskriptiv zu interpretieren.")
 mr = metareg(t, vt, np.array([r["nachbeob_mo"] for r in rows_d]), names=["Nachbeobachtung_Monate"])
 ERG["C3_Ueberleben_Keramikimplantate"]["metaregression_nachbeobachtung"] = dict(

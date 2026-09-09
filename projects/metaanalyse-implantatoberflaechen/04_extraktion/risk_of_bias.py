@@ -15,19 +15,19 @@ Regelfall und selbst ein Ergebnis dieser Arbeit.
 
 SYRCLE_DOMAENEN = [
     "1 Sequenzgenerierung", "2 Ausgangsmerkmale", "3 Verdeckte Zuteilung",
-    "4 Randomisierte Unterbringung", "5 Verblindung Versuchsdurchfuehrung",
+    "4 Randomisierte Unterbringung", "5 Verblindung Versuchsdurchführung",
     "6 Randomisierte Ergebniserhebung", "7 Verblindung Ergebniserhebung",
-    "8 Unvollstaendige Ergebnisdaten", "9 Selektives Berichten", "10 Sonstige Verzerrung",
+    "8 Unvollständige Ergebnisdaten", "9 Selektives Berichten", "10 Sonstige Verzerrung",
 ]
 ROB2_DOMAENEN = [
     "D1 Randomisierungsprozess", "D2 Abweichungen von der Intervention",
-    "D3 Fehlende Ergebnisdaten", "D4 Messung der Zielgroesse",
+    "D3 Fehlende Ergebnisdaten", "D4 Messung der Zielgröße",
     "D5 Selektion des berichteten Ergebnisses", "Gesamturteil",
 ]
 ROBINS_DOMAENEN = [
     "D1 Confounding", "D2 Selektion der Teilnehmer", "D3 Klassifikation der Intervention",
     "D4 Abweichungen von der Intervention", "D5 Fehlende Daten",
-    "D6 Messung der Zielgroesse", "D7 Selektion des Ergebnisses", "Gesamturteil",
+    "D6 Messung der Zielgröße", "D7 Selektion des Ergebnisses", "Gesamturteil",
 ]
 
 n, u, h = "niedrig", "unklar", "hoch"
@@ -47,7 +47,7 @@ SYRCLE = {
  "Xiao 2011":       [u, n, u, u, u, u, u, n, n, n],
  "Gahlert 2012":    [u, n, u, u, u, u, u, u, u, u],
  "Ballo 2013":      [n, n, u, u, u, u, u, n, n, n],
- "Stuebinger 2013": [u, n, u, u, u, u, u, n, n, u],
+ "Stübinger 2013": [u, n, u, u, u, u, u, n, n, u],
  "Thoma 2015":      [n, n, u, u, u, u, u, n, n, h],
  "Montero 2015":    [u, n, u, u, u, u, u, h, n, h],
  "Ou 2016":         [u, n, u, u, u, u, u, n, n, n],
@@ -59,7 +59,7 @@ SYRCLE = {
  "Hou 2019":        [u, n, u, u, u, u, u, n, n, n],
  "Gehrke 2019":     [n, n, u, u, u, u, u, n, n, n],
  "Gehrke 2019b":    [n, n, u, u, u, u, u, n, n, n],
- "Thome 2021":      [u, n, u, u, u, u, u, n, n, u],
+ "Thomé 2021":      [u, n, u, u, u, u, u, n, n, u],
  "Chacun 2021":     [u, n, u, u, u, u, u, n, n, n],
  "Kim 2021":        [u, u, u, u, u, u, u, u, n, h],
  "Duncan 2022":     [u, n, u, u, u, u, u, n, n, u],
@@ -77,7 +77,7 @@ SYRCLE_BEGRUENDUNG = {
  "Niu 2025": "Domaene 10: auffaellig kleine Streuungen bei n = 14",
  "Veis 2004": "Domaene 10: nur zwei Versuchstiere",
  "Duncan 2022": "Domaene 10: Poolung von Kiefer- und Femurlokalisation",
- "Thome 2021": "Domaene 10: Non-Inferioritaets-Design, herstellerfinanziert",
+ "Thomé 2021": "Domaene 10: Non-Inferioritaets-Design, herstellerfinanziert",
 }
 
 # ---- Randomisierte klinische Studien (RoB 2) -----------------------------

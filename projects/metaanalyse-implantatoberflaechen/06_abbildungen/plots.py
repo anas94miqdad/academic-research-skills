@@ -85,23 +85,23 @@ def forest(rows, pooled, xlabel, title, outfile, effect="MD", subgroups=None,
     ax.set_yticks(ypos); ax.set_yticklabels(labels, fontsize=8)
     ax.set_xlim(lo, hi)
     if log:
-        cand = [0.02,0.05,0.1,0.2,0.33,0.5,0.75,1,1.5,2,3,5,10,20,50]
+        cand = [0.02,0.05,0.1,0.2,0.5,1,2,5,10,20,50]
         tk = [c for c in cand if lo <= math.log(c) <= hi]
         ax.set_xticks([math.log(c) for c in tk]); ax.set_xticklabels([str(c) for c in tk])
     ax.set_xlabel(xlabel, fontsize=9)
     ax.set_title(title, fontsize=10.5, fontweight="bold", loc="left", pad=15)
     ax.spines["left"].set_visible(False); ax.tick_params(axis="y", length=0)
     if favours:
-        ax.annotate("◀ " + favours[0], xy=(0.02, -0.075), xycoords="axes fraction",
-                    fontsize=7.8, color=C_GREY)
-        ax.annotate(favours[1] + " ▶", xy=(0.98, -0.075), xycoords="axes fraction",
-                    fontsize=7.8, color=C_GREY, ha="right")
+        ax.annotate("◀ " + favours[0], xy=(0.0, -0.155), xycoords="axes fraction",
+                    fontsize=8.0, color=C_GREY)
+        ax.annotate(favours[1] + " ▶", xy=(1.0, -0.155), xycoords="axes fraction",
+                    fontsize=8.0, color=C_GREY, ha="right")
     sub = (f"k = {pooled['k']}   |   tau² = {pooled['tau2']:.4f}   |   "
            f"I² = {pooled['I2']:.1f} %   |   Q({pooled['Q_df']}) = {pooled['Q']:.2f}, "
            f"p = {pooled['Q_p']:.3f}")
     ax.annotate(sub, xy=(0, 1.012), xycoords="axes fraction", fontsize=7.8, color=C_GREY)
     if extra_lines:
-        ax.annotate(extra_lines, xy=(0, -0.13), xycoords="axes fraction", fontsize=7.3,
+        ax.annotate(extra_lines, xy=(0, -0.215), xycoords="axes fraction", fontsize=7.4,
                     color=C_GREY, va="top")
     fig.tight_layout()
     fig.savefig(outfile, bbox_inches="tight"); plt.close(fig)
@@ -158,13 +158,13 @@ def rob_traffic(studies, domains, matrix, title, outfile, legend_note=None):
     ax.set_xlim(-0.6, len(domains) - 0.4); ax.set_ylim(-0.7, len(studies) - 0.3)
     ax.set_aspect("equal")
     ax.set_xticks(range(len(domains)))
-    ax.set_xticklabels(domains, rotation=45, ha="left", fontsize=7.2)
+    ax.set_xticklabels(domains, rotation=40, ha="left", fontsize=7.4)
     ax.xaxis.set_ticks_position("top")
     ax.set_yticks(range(len(studies)))
     ax.set_yticklabels(studies[::-1], fontsize=7.4)
     for s in ax.spines.values(): s.set_visible(False)
     ax.tick_params(length=0)
-    ax.set_title(title, fontsize=10.5, fontweight="bold", loc="left", pad=70)
+    ax.set_title(title, fontsize=10.5, fontweight="bold", loc="left", pad=28)
     if legend_note:
         ax.annotate(legend_note, xy=(0, -0.03), xycoords="axes fraction",
                     fontsize=7.2, va="top", color=C_GREY)

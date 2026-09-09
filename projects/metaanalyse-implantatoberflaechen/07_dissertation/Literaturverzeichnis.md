@@ -4,12 +4,12 @@ Alle bibliographischen Angaben wurden unmittelbar aus dem MEDLINE-Datensatz der 
 Publikation übernommen (Abruf 09.09.2026). PMID und DOI sind mitgeführt, damit jede Angabe
 unabhängig überprüfbar ist. Der Kurzbeleg der linken Spalte entspricht der Zitierweise im Text.
 
-Kennzeichnung der Verwendung: **[A1]** Knochen-Implantat-Kontakt Keramik vs. Titan · **[B1]** Knochen-
-Implantat-Kontakt Oberflächenmodifikation · **[B2]** biomechanische Verankerung · **[C1]** klinischer
-Implantatverlust · **[C2]** marginaler Knochenverlust · **[C3]** Überleben keramischer Implantate ·
+Kennzeichnung: **[A1]** Knochen-Implantat-Kontakt Keramik vs. Titan - **[B1]** Knochen-Implantat-
+Kontakt Oberflächenmodifikation - **[B2]** biomechanische Verankerung - **[C1]** klinischer
+Implantatverlust - **[C2]** marginaler Knochenverlust - **[C3]** Überleben keramischer Implantate -
 **[Q]** qualitative Synthese (keine poolbaren Kennwerte).
 
-Einträge insgesamt: 156 — davon 103 eingeschlossene Primärstudien.
+Einträge insgesamt: 156 - davon 103 eingeschlossene Primärstudien.
 
 | Kurzbeleg | Vollbeleg |
 |---|---|
@@ -169,8 +169,8 @@ Einträge insgesamt: 156 — davon 103 eingeschlossene Primärstudien.
 
 | Kurzbeleg | Vollbeleg |
 |---|---|
-| Viechtbauer 2010 | Viechtbauer W. Conducting meta-analyses in R with the metafor package. J Stat Softw. 2010;36(3):1–48. doi:10.18637/jss.v036.i03. |
+| Viechtbauer 2010 | Viechtbauer W. Conducting meta-analyses in R with the metafor package. J Stat Softw. 2010;36(3):1-48. doi:10.18637/jss.v036.i03. |
 | Higgins et al. 2024 | Higgins JPT, Thomas J, Chandler J, Cumpston M, Li T, Page MJ, Welch VA (Hrsg.). Cochrane Handbook for Systematic Reviews of Interventions. Version 6.5. Cochrane; 2024. |
-| Freeman & Tukey 1950 | Freeman MF, Tukey JW. Transformations related to the angular and the square root. Ann Math Stat. 1950;21(4):607–611. doi:10.1214/aoms/1177729756. |
-| Miller 1978 | Miller JJ. The inverse of the Freeman–Tukey double arcsine transformation. Am Stat. 1978;32(4):138. doi:10.1080/00031305.1978.10479283. |
+| Freeman & Tukey 1950 | Freeman MF, Tukey JW. Transformations related to the angular and the square root. Ann Math Stat. 1950;21(4):607-611. doi:10.1214/aoms/1177729756. |
+| Miller 1978 | Miller JJ. The inverse of the Freeman-Tukey double arcsine transformation. Am Stat. 1978;32(4):138. doi:10.1080/00031305.1978.10479283. |
 | Hedges & Olkin 1985 | Hedges LV, Olkin I. Statistical Methods for Meta-Analysis. Orlando: Academic Press; 1985. |

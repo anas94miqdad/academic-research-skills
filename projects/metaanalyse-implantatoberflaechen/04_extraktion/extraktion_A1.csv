@@ -1,13 +1,13 @@
 ﻿pmid;studie;jahr;spezies;ort;design;zeit_w;belastet;gruppe_t;gruppe_k;mt;sdt;nt;mk;sdk;nk;werkstoff_t;werkstoff_k;quelle;anmerkung;imputiert
-15515343;Kohal 2004;2004;Affe (Macaca);Maxilla;kontrolliert, Split-Mouth;39;True;ZrO2, sandgestrahlt;Ti, sandgestrahlt + geaetzt;67.4;17.0;12;72.9;14.0;12;ZrO2;cpTi;abstract;;
-19077228;Depprich 2008;2008;Minipig;Tibia;kontrolliert;12;False;ZrO2, saeuremodifiziert;Ti, aufgeraut;71.4;17.8;8;82.9;10.7;8;ZrO2;cpTi;volltext;"12-Wochen-Zeitpunkt (laengster); 1 W und 4 W zusaetzlich berichtet";
+15515343;Kohal 2004;2004;Affe (Macaca);Maxilla;kontrolliert, Split-Mouth;39;True;ZrO2, sandgestrahlt;Ti, sandgestrahlt + geätzt;67.4;17.0;12;72.9;14.0;12;ZrO2;cpTi;abstract;;
+19077228;Depprich 2008;2008;Minipig;Tibia;kontrolliert;12;False;ZrO2, säuremodifiziert;Ti, aufgeraut;71.4;17.8;8;82.9;10.7;8;ZrO2;cpTi;volltext;"12-Wochen-Zeitpunkt (laengster); 1 W und 4 W zusaetzlich berichtet";
 19538335;Lee 2009;2009;Kaninchen;Femurkondyle;kontrolliert, kontralateral;6;False;ZiUnite (por. ZrO2);TiUnite (anodisiert);69.7;18.0;10;67.1;13.3;10;ZrO2;cpTi;abstract;"Abstract berichtet 69.7+/-5.7 bzw. 67.1+/-4.2; bei n=10 als SEM interpretiert und mit SD = SEM*sqrt(n) umgerechnet (Sensitivitaetsanalyse)";
-21806681;Gahlert 2012;2012;Minipig;Maxilla;kontrolliert;12;False;ZrO2, saeuregeaetzt;Ti-SLA;70.0;14.5;16;83.7;10.3;18;ZrO2;cpTi;abstract;"Abstract nennt nur Spannweiten ueber drei Zeitpunkte; hier oberer Spannweitenwert dem 12-Wochen-Zeitpunkt zugeordnet - Annahme, in Sensitivitaetsanalyse ausgeschlossen";True
+21806681;Gahlert 2012;2012;Minipig;Maxilla;kontrolliert;12;False;ZrO2, säuregeätzt;Ti-SLA;70.0;14.5;16;83.7;10.3;18;ZrO2;cpTi;abstract;"Abstract nennt nur Spannweiten ueber drei Zeitpunkte; hier oberer Spannweitenwert dem 12-Wochen-Zeitpunkt zugeordnet - Annahme, in Sensitivitaetsanalyse ausgeschlossen";True
 26362505;Thoma 2015;2015;Hund;Mandibula;kontrolliert, randomisiert;52;True;ZrO2 einteilig (ZD);Ti einteilig (STM);78.6;17.3;6;87.9;13.6;6;ZrO2;cpTi;abstract;;
 25671626;Montero 2015;2015;Beagle;Mandibula;kontrolliert, Sofortimplantation;20;False;ZrO2 individuell;Ti;57.0;15.2;16;56.5;14.4;16;ZrO2;cpTi;abstract;;
 28058261;Siddiqi 2016;2016;Schaf;Mandibula;kontrolliert, gepaart;12;False;ZrO2 einteilig;Ti einteilig;72.2;23.7;10;60.3;22.4;10;ZrO2;cpTi;volltext;"Kieferlokalisation; Femurwerte (85.5+/-14.1 vs. 78.9+/-18.5) in Sensitivitaetsanalyse";
-30875729;Gehrke 2019;2019;Kaninchen;Tibia;kontrolliert, randomisiert;6;False;ZrO2;Ti, oberflaechenbehandelt (TiT);34.0;6.82;10;37.8;4.84;10;ZrO2;cpTi;volltext;;
-32914271;Thome 2021;2021;Minipig;Mandibula;kontrolliert, Split-Mouth;8;False;ZrO2 spritzgegossen;Ti (Alvim);77.8;6.9;18;80.7;6.9;18;ZrO2;cpTi;abstract;;
+30875729;Gehrke 2019;2019;Kaninchen;Tibia;kontrolliert, randomisiert;6;False;ZrO2;Ti, oberflächenbehandelt (TiT);34.0;6.82;10;37.8;4.84;10;ZrO2;cpTi;volltext;;
+32914271;Thomé 2021;2021;Minipig;Mandibula;kontrolliert, Split-Mouth;8;False;ZrO2 spritzgegossen;Ti (Alvim);77.8;6.9;18;80.7;6.9;18;ZrO2;cpTi;abstract;;
 34238605;Chacun 2021;2021;Beagle;Mandibula;kontrolliert, Split-Mouth;13;False;ZrO2-Keramikkomposit, sandgestrahlt+geaetzt;Ti, sandgestrahlt+geaetzt;86.1;13.8;24;92.0;8.6;24;ZrO2;cpTi;abstract;;
 34442927;Kim 2021;2021;Kaninchen;Tibia;kontrolliert;4;False;ZrO2, additiv gefertigt;Ti-SLA;81.19;5.79;4;90.52;2.64;4;ZrO2;cpTi;volltext;;
 35955254;Duncan 2022;2022;Schaf;Femurkondyle;kontrolliert;12;False;ZrO2 einteilig (ZC);Ti einteilig, geblastet;76.0;20.0;10;80.0;19.0;10;ZrO2;cpTi;volltext;;

@@ -131,51 +131,64 @@ def eintrag(r):
     return s
 
 if __name__ == "__main__":
-    # eingeschlossene Studien
+    from collections import Counter
+    PART = {"de","da","van","von","der","den","del","dos","du","le","la","el","al"}
+    def surname(a):
+        t = a.split()
+        return " ".join(t[:2]) if len(t) >= 3 and t[0].lower() in PART else t[0]
+    def kurz(au, y):
+        if not au: return f"o. A. {y}"
+        n = surname(au[0])
+        if len(au) == 1: return f"{n} {y}"
+        if len(au) == 2: return f"{n} & {surname(au[1])} {y}"
+        return f"{n} et al. {y}"
     incl = {}
     for k, v in D.ALLE.items():
-        for r in v:
-            incl.setdefault(r["pmid"], set()).add(k)
-    lit = []
-    for pm in incl:
+        for r in v: incl.setdefault(r["pmid"], set()).add(k)
+    items = []
+    for pm, an in incl.items():
         r = recs.get(pm)
-        if r: lit.append((r["authors"][0].split()[0] if r["authors"] else "ZZZ", int(r["year"] or 0), pm, r, sorted(incl[pm])))
-    lit.sort(key=lambda x: (x[0].lower(), x[1]))
-    zusatz = []
+        if r: items.append(dict(pmid=pm, autoren=r["authors"], titel=r["title"],
+                                journal=r["journal"], jahr=r["year"], doi=r["doi"], analysen=sorted(an)))
     for k, r in meth.items():
-        if r and r.get("pmid") not in incl:
-            zusatz.append(((r.get("autoren") or ["ZZZ"])[0].split()[0], int(r.get("jahr") or 0), r))
-    zusatz.sort(key=lambda x: (x[0].lower(), x[1]))
-    lines = []
-    nr = 0
-    key2nr = {}
-    alle = [(a, y, r, sorted(an)) for a, y, pm, r, an in lit] + [(a, y, r, []) for a, y, r in zusatz]
-    alle.sort(key=lambda x: (x[0].lower(), x[1]))
-    lines.append("## A  Eingeschlossene Studien (n = %d)\n" % len(lit))
-    for _, _, pm, r, an in lit:
-        nr += 1; key2nr[pm] = nr
-        lines.append(f"{nr}. {eintrag(r)}  *[Analyse: {', '.join(an)}]*")
-    lines.append("\n## B  Methodische und weiterführende Literatur (n = %d)\n" % len(zusatz))
-    for _, _, r in zusatz:
-        nr += 1; key2nr[r["pmid"]] = nr
-        lines.append(f"{nr}. {eintrag(r)}")
-    lines.append("\n## C  Nicht in PubMed indexierte Quellen\n")
-    n0 = nr
+        if r and r["pmid"] not in incl:
+            items.append(dict(pmid=r["pmid"], autoren=r["autoren"], titel=r["titel"],
+                              journal=r["journal"], jahr=r["jahr"], doi=r["doi"], analysen=[]))
+    for i in items: i["kurz"] = kurz(i["autoren"], i["jahr"])
+    items.sort(key=lambda x: (surname((x["autoren"] or ["ZZ"])[0]).lower(), int(x["jahr"] or 0)))
+    c = Counter(i["kurz"] for i in items); seen = Counter()
+    for i in items:
+        if c[i["kurz"]] > 1:
+            seen[i["kurz"]] += 1; i["kurz"] = i["kurz"] + chr(96 + seen[i["kurz"]])
+    NORM = {"39506212": "de Beus et al. 2025", "38940623": "Ruiz Henao et al. 2024"}
+    for i in items: i["kurz"] = NORM.get(i["pmid"], i["kurz"])
     weitere = [
-     "Viechtbauer W. Conducting meta-analyses in R with the metafor package. J Stat Softw. 2010;36(3):1–48. doi:10.18637/jss.v036.i03.",
-     "Higgins JPT, Thomas J, Chandler J, Cumpston M, Li T, Page MJ, Welch VA (Hrsg.). Cochrane Handbook for Systematic Reviews of Interventions. Version 6.5. Cochrane; 2024. www.training.cochrane.org/handbook.",
-     "Freeman MF, Tukey JW. Transformations related to the angular and the square root. Ann Math Stat. 1950;21(4):607–611. doi:10.1214/aoms/1177729756.",
-     "Miller JJ. The inverse of the Freeman–Tukey double arcsine transformation. Am Stat. 1978;32(4):138. doi:10.1080/00031305.1978.10479283.",
-     "Hedges LV, Olkin I. Statistical Methods for Meta-Analysis. Orlando: Academic Press; 1985.",
-     "Deutsche Gesellschaft für Implantologie (DGI), Deutsche Gesellschaft für Zahn-, Mund- und Kieferheilkunde (DGZMK). S3-Leitlinie: Implantatprothetische Versorgung. AWMF-Registernummer 083-010. (Fassung zum Recherchezeitpunkt.)",
+     ("Viechtbauer 2010", "Viechtbauer W. Conducting meta-analyses in R with the metafor package. J Stat Softw. 2010;36(3):1-48. doi:10.18637/jss.v036.i03."),
+     ("Higgins et al. 2024", "Higgins JPT, Thomas J, Chandler J, Cumpston M, Li T, Page MJ, Welch VA (Hrsg.). Cochrane Handbook for Systematic Reviews of Interventions. Version 6.5. Cochrane; 2024."),
+     ("Freeman & Tukey 1950", "Freeman MF, Tukey JW. Transformations related to the angular and the square root. Ann Math Stat. 1950;21(4):607-611. doi:10.1214/aoms/1177729756."),
+     ("Miller 1978", "Miller JJ. The inverse of the Freeman-Tukey double arcsine transformation. Am Stat. 1978;32(4):138. doi:10.1080/00031305.1978.10479283."),
+     ("Hedges & Olkin 1985", "Hedges LV, Olkin I. Statistical Methods for Meta-Analysis. Orlando: Academic Press; 1985."),
     ]
-    for w in weitere:
-        nr += 1; lines.append(f"{nr}. {w}")
-    txt = "\n".join(lines)
-    open(os.path.join(HERE, "Literaturverzeichnis.md"), "w").write(
-        "# Literaturverzeichnis\n\n"
-        "Alle Angaben in Abschnitt A und B wurden unmittelbar aus dem MEDLINE-Datensatz der\n"
-        "jeweiligen Publikation übernommen (Abruf 09.09.2026); PMID und DOI sind mit angegeben,\n"
-        "damit jede Angabe unabhängig überprüfbar ist.\n\n" + txt + "\n")
-    json.dump(key2nr, open(os.path.join(HERE, "zitatnummern.json"), "w"), indent=1)
-    print("Literaturverzeichnis:", nr, "Einträge (A:", len(lit), "B:", len(zusatz), "C:", nr-n0, ")")
+    out = ["# Literaturverzeichnis", "",
+      "Alle bibliographischen Angaben wurden unmittelbar aus dem MEDLINE-Datensatz der jeweiligen",
+      "Publikation uebernommen (Abruf 09.09.2026). PMID und DOI sind mitgefuehrt, damit jede Angabe",
+      "unabhaengig ueberpruefbar ist. Der Kurzbeleg der linken Spalte entspricht der Zitierweise im Text.", "",
+      "Kennzeichnung: **[A1]** Knochen-Implantat-Kontakt Keramik vs. Titan - **[B1]** Knochen-Implantat-",
+      "Kontakt Oberflaechenmodifikation - **[B2]** biomechanische Verankerung - **[C1]** klinischer",
+      "Implantatverlust - **[C2]** marginaler Knochenverlust - **[C3]** UEberleben keramischer Implantate -",
+      "**[Q]** qualitative Synthese (keine poolbaren Kennwerte).", "",
+      f"Eintraege insgesamt: {len(items)+len(weitere)} - davon {len(incl)} eingeschlossene Primaerstudien.", "",
+      "| Kurzbeleg | Vollbeleg |", "|---|---|"]
+    for i in items:
+        a = autoren(i["autoren"]); t = (i["titel"] or "").rstrip(".")
+        voll = f"{a}. {t}. {abk(i['journal'] or '')}. {i['jahr']}."
+        if i["doi"]: voll += f" doi:{i['doi']}."
+        voll += f" PMID:{i['pmid']}."
+        if i["analysen"]: voll += " **[" + ", ".join(i["analysen"]) + "]**"
+        out.append(f"| {i['kurz']} | {voll} |")
+    out += ["", "## Nicht in PubMed indexierte Quellen", "", "| Kurzbeleg | Vollbeleg |", "|---|---|"]
+    for k, v in weitere: out.append(f"| {k} | {v} |")
+    open(os.path.join(HERE, "Literaturverzeichnis.md"), "w").write("\n".join(out) + "\n")
+    json.dump({i["pmid"]: i["kurz"] for i in items},
+              open(os.path.join(HERE, "kurzbelege.json"), "w"), indent=1, ensure_ascii=False)
+    print("Literaturverzeichnis:", len(items) + len(weitere), "Eintraege |", len(incl), "Primaerstudien")
